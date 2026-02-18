@@ -117,9 +117,8 @@
     mov (%r13), %r8d
 
     // user requested to quit
-    mov $SDL_EVENT_QUIT, %r9d
-    cmp %r8d, %r9d
-    sete %r12b
+    cmp $SDL_EVENT_QUIT, %r8d
+    je .Lloop_end
 
     // use white color
     load_local renderer_handle, %rdi
@@ -152,8 +151,8 @@
     mov %r13, %rdi
     call SDL_RenderPresent@PLT
 
-    test %r12b, %r12b
-    jz .Lloop
+    jmp .Lloop
+  .Lloop_end:
 
   .Ldestroy_renderer:
     // destroy the renderer
