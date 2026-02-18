@@ -77,7 +77,7 @@
     // create a renderer
     load_local window_handle, %rdi
     mov $-1, %rsi
-    mov $SDL_RENDERER_ACCELERATED, %rdx
+    mov $(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC), %rdx
     call SDL_CreateRenderer@PLT
     store_local %rax, renderer_handle
 

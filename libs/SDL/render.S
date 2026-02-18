@@ -3,6 +3,8 @@
 //! Assembler bindings for SDL2 (SDL_render.h)
 
 #define SDL_RENDERER_ACCELERATED 0x00000002u
+#define SDL_RENDERER_PRESENTVSYNC 0x00000004u
+
 
 //! @fn SDL_Renderer * SDL_CreateRenderer(SDL_Window * window, int index, Uint32 flags);
 //! @param the window where rendering is displayed.
