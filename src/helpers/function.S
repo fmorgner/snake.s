@@ -1,56 +1,62 @@
-.set _FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
-.set _FUNCTION_LOCALS_ALLOCATED, 0
+.set .L_FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
+.set .L_FUNCTION_LOCALS_ALLOCATED, 0
 
-.macro _function_local_variable scope, name, size
-  .if _FUNCTION_IS_IN_FUNCTION_DEFINITION == 0
-    .error "Cannot define a local variable outside of a function."
-  .else
-    .set _FRAME_OFFSET, _FRAME_OFFSET + \size
-    .equ \scope\()_name, -_FRAME_OFFSET
+.macro _function_require_function
+  .if .L_FUNCTION_IS_IN_FUNCTION_DEFINITION == 0
+    .error "No active function definition."
   .endif
 .endm
 
-.macro _function_allocate_local_variables scope
-  .if _FUNCTION_IS_IN_FUNCTION_DEFINITION == 0
-    .error "Cannot allocate local variables outside of a function."
-  .elseif _FUNCTION_LOCALS_ALLOCATED == 1
+.macro _function_require_no_function
+  .if .L_FUNCTION_IS_IN_FUNCTION_DEFINITION == 1
+    .error "A function is already being defined."
+  .endif
+.endm
+
+.macro _function_require_locals
+  _function_require_function
+  .if .L_FUNCTION_LOCALS_ALLOCATED == 0
+    .error "Local variables have not been allocated."
+  .endif
+.endm
+
+.macro _function_require_no_locals
+  _function_require_function
+  .if .L_FUNCTION_LOCALS_ALLOCATED == 1
     .error "Local variables have already been allocated."
-  .else
-    .set _FUNCTION_LOCALS_ALLOCATED, 1
-    .equ \scope\()_FRAME_SIZE, (_FRAME_OFFSET + 15) & -16
-    .if \scope\()_FRAME_SIZE > 0
-      sub $\scope\()_FRAME_SIZE, %rsp
-    .endif
+  .endif
+.endm
+
+.macro _function_local_variable scope, name, size
+  _function_require_function
+  .set .L\scope\()_FRAME_OFFSET, .L\scope\()_FRAME_OFFSET + \size
+  .equ .L\scope\()_\name\(), -.L\scope\()_FRAME_OFFSET
+.endm
+
+.macro _function_allocate_local_variables scope
+  _function_require_no_locals
+  .set .L_FUNCTION_LOCALS_ALLOCATED, 1
+  .equ .L\scope\()_FRAME_SIZE, (.L\scope\()_FRAME_OFFSET + 15) & -16
+  .if .L\scope\()_FRAME_SIZE > 0
+    sub $.L\scope\()_FRAME_SIZE, %rsp
   .endif
 .endm
 
 .macro _function_load_local scope, name, register
-  .if _FUNCTION_IS_IN_FUNCTION_DEFINITION == 0
-    .error "Cannot load a local variable outside of a function."
-  .elseif _FUNCTION_LOCALS_ALLOCATED == 0
-    .error "Local variables have not been allocated."
-  .else
-    mov \scope\()_name(%rbp), \register
-  .endif
+  _function_require_locals
+  mov .L\scope\()_\name\()(%rbp), \register
 .endm
 
 .macro _function_store_local scope, register, name
-  .if _FUNCTION_IS_IN_FUNCTION_DEFINITION == 0
-    .error "Cannot store a local variable outside of a function."
-  .elseif _FUNCTION_LOCALS_ALLOCATED == 0
-    .error "Local variables have not been allocated."
-  .else
-    mov \register, \scope\()_name(%rbp)
-  .endif
+  _function_require_locals
+  mov \register, .L\scope\()_\name\()(%rbp)
 .endm
 
 .macro function_begin name
-  .if _FUNCTION_IS_IN_FUNCTION_DEFINITION == 1
-    .error "Cannot define a function inside of another function."
-  .endif
+  _function_require_no_function
 
-  .set _FUNCTION_IS_IN_FUNCTION_DEFINITION, 1
-  .set _FUNCTION_LOCALS_ALLOCATED, 0
+  .set .L_FUNCTION_IS_IN_FUNCTION_DEFINITION, 1
+  .set .L_FUNCTION_LOCALS_ALLOCATED, 0
 
   .macro define_local var_name, var_size
     _function_local_variable \name, \var_name, \var_size
@@ -73,10 +79,8 @@
   .endm
 
   .macro function_end
-    .if _FRAME_OFFSET > 0
-      .if _FUNCTION_LOCALS_ALLOCATED == 0
-        .error "Local variables were never been allocated."
-      .endif
+    .if .L\name\()_FRAME_OFFSET > 0
+      _function_require_locals
     .endif
 
     .Lexit_\name:
@@ -85,8 +89,8 @@
       ret
       .cfi_endproc
       .size \name, .-\name
-      .set _FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
-      .set _FUNCTION_LOCALS_ALLOCATED, 0
+      .set .L_FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
+      .set .L_FUNCTION_LOCALS_ALLOCATED, 0
       .purgem allocate_locals
       .purgem function_end
       .purgem function_exit
@@ -104,5 +108,5 @@
     .cfi_offset %rbp, -16
     mov %rsp, %rbp
     .cfi_def_cfa_register %rbp
-    .set _FRAME_OFFSET, 0
+    .set .L\name\()_FRAME_OFFSET, 0
 .endm
