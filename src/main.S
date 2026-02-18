@@ -87,19 +87,20 @@
     xor %rax, %rax
     call printf@PLT
 
+    // initialize a simple square, located at the screen's center
     mov $(SCREEN_HEIGHT / 2), %r8
     mov $(SCREEN_WIDTH / 2), %r9
 
     address_of_local rect, %rdi
-    mov %r8, OFFSET_SDL_Rect_w(%rdi)
-    mov %r8, OFFSET_SDL_Rect_h(%rdi)
+    mov %r8d, OFFSET_SDL_Rect_w(%rdi)
+    mov %r8d, OFFSET_SDL_Rect_h(%rdi)
     mov %r9, %r10
     shr $1, %r9
     sub %r9, %r10
-    mov %r10, OFFSET_SDL_Rect_x(%rdi)
+    mov %r10d, OFFSET_SDL_Rect_x(%rdi)
     mov %r8, %r10
     sub %r9, %r10
-    mov %r10, OFFSET_SDL_Rect_y(%rdi)
+    mov %r10d, OFFSET_SDL_Rect_y(%rdi)
 
   .Ldestroy_renderer:
     // destroy the renderer
