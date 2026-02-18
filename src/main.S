@@ -1,5 +1,6 @@
 #include "helpers/function.S"
 #include "SDL/init.S"
+#include "SDL/rect.S"
 #include "SDL/render.S"
 #include "SDL/video.S"
 
@@ -27,6 +28,7 @@
 
     define_local window_handle, 8
     define_local renderer_handle, 8
+    define_local rect, SIZE_SDL_Rect
     allocate_locals
 
     // initialize SDL
@@ -61,7 +63,7 @@
       lea failed_to_create_window(%rip), %rdi
       call _print_sdl_error@PLT
       mov $1, %rax
-      function_exit
+      jmp .Lquit_sdl
   1:
     lea succeeded_to_create_window(%rip), %rdi
     xor %rax, %rax
@@ -85,16 +87,31 @@
     xor %rax, %rax
     call printf@PLT
 
+    mov $(SCREEN_HEIGHT / 2), %r8
+    mov $(SCREEN_WIDTH / 2), %r9
+
+    address_of_local rect, %rdi
+    mov %r8, OFFSET_SDL_Rect_w(%rdi)
+    mov %r8, OFFSET_SDL_Rect_h(%rdi)
+    mov %r9, %r10
+    shr $1, %r9
+    sub %r9, %r10
+    mov %r10, OFFSET_SDL_Rect_x(%rdi)
+    mov %r8, %r10
+    sub %r9, %r10
+    mov %r10, OFFSET_SDL_Rect_y(%rdi)
+
   .Ldestroy_renderer:
     // destroy the renderer
     load_local renderer_handle, %rdi
-    call SDL_DestroyRenderer
+    call SDL_DestroyRenderer@PLT
 
   .Ldestroy_window:
     // destroy the window
     load_local window_handle, %rdi
     call SDL_DestroyWindow@PLT
 
+  .Lquit_sdl:
     call SDL_Quit@PLT
 
     xor %rax, %rax

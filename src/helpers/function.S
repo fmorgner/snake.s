@@ -52,6 +52,13 @@
   mov \register, .L\scope\()_\name\()(%rbp)
 .endm
 
+.macro _function_address_of_local scope, name, register
+  _function_require_locals
+  lea .L\scope\()_\name\()(%rbp), \register
+.endm
+
+
+
 .macro function_begin name
   _function_require_no_function
 
@@ -64,6 +71,10 @@
 
   .macro allocate_locals
     _function_allocate_local_variables \name
+  .endm
+
+  .macro address_of_local var_name, register
+    _function_address_of_local \name, \var_name, \register
   .endm
 
   .macro load_local var_name, register
@@ -92,6 +103,7 @@
       .set .L_FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
       .set .L_FUNCTION_LOCALS_ALLOCATED, 0
       .purgem allocate_locals
+      .purgem address_of_local
       .purgem function_end
       .purgem function_exit
       .purgem load_local
