@@ -1,4 +1,5 @@
-#include "SDL_interface.S"
+#include "helpers/function.S"
+#include "libs/sdl.S"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
@@ -14,13 +15,9 @@
   window_title:             .string "snake.s"
 
 .section .text
-  .global main
 
-  // void _print_sdl_error(char const * format)
-  .type _print_sdl_error, @function
-  _print_sdl_error:
-    push %rbp
-    mov %rsp, %rbp
+  //! @function _print_sdl_error(char const * format)
+  function_begin _print_sdl_error
 
     push %rdi
     sub $8, %rsp
@@ -32,27 +29,25 @@
     pop %rdi
 
     call printf@PLT
-    jmp .Lexit
 
-    leave
-    ret
+  function_end
 
-  .type main, @function
-  main: 
-    push %rbp
-    mov %rsp, %rbp
+  function_begin main
+
+    define_local window_handle, 8
+    allocate_locals
 
     // initialize SDL
     mov $SDL_INIT_VIDEO, %rdi
     call SDL_Init@PLT
 
     // check if initialization was successful
-    cmp $0, %rax
+    test %rax, %rax
     jae 1f
       lea failed_to_initialize_sdl(%rip), %rdi
       call _print_sdl_error@PLT
       mov $1, %rax
-      jmp .Lexit
+      function_exit
   1:
 
     // create a window
@@ -64,17 +59,21 @@
     mov $SDL_WINDOW_SHOWN, %r9
     call SDL_CreateWindow@PLT
 
-    cmp $0, %rax
+    store_local %rax, window_handle
+
+    // check if window creation was successful
+    test %rax, %rax
     jne 1f
       lea failed_to_create_window(%rip), %rdi
       call _print_sdl_error@PLT
       mov $1, %rax
-      jmp .Lexit
+      function_exit
   1:
 
-  mov %rax, %rdi
-  call SDL_DestroyWindow@PLT
-  call SDL_Quit@PLT
+    load_local window_handle, %rdi
+    call SDL_DestroyWindow@PLT
+
+    call SDL_Quit@PLT
 
   .Lsuccess:
     lea greeting(%rip), %rdi
@@ -83,6 +82,5 @@
 
     xor %rax, %rax
 
-  .Lexit:
-    leave
-    ret
+  function_end
+
