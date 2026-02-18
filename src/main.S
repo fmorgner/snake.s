@@ -1,4 +1,5 @@
 #include "helpers/function.S"
+#include "SDL/events.S"
 #include "SDL/init.S"
 #include "SDL/rect.S"
 #include "SDL/render.S"
@@ -8,7 +9,7 @@
 #define SCREEN_HEIGHT 600
 
 // integer-params:  RDI, RSI, RDX, RCX, R8, R9
-// caller-saved:    RAX, RCX, RDX, RSI, RDI, R8-R11
+// caller-saved:    RAX, RCX, RDI, RSI, RDX, R8-R11
 // callee-saved:    RBX, RSP, RBP, R12-R15
 
 .section .rodata
@@ -26,9 +27,13 @@
 
   function_begin main
 
+    push %r12
+    push %r13
+
     define_local window_handle, 8
     define_local renderer_handle, 8
     define_local rect, SIZE_SDL_Rect
+    define_local event, SIZE_SDL_Event
     allocate_locals
 
     // initialize SDL
@@ -88,19 +93,67 @@
     call printf@PLT
 
     // initialize a simple square, located at the screen's center
-    mov $(SCREEN_HEIGHT / 2), %r8
-    mov $(SCREEN_WIDTH / 2), %r9
+    mov $(SCREEN_HEIGHT / 2), %r8d
+    mov $(SCREEN_WIDTH / 2), %r9d
 
     address_of_local rect, %rdi
     mov %r8d, OFFSET_SDL_Rect_w(%rdi)
     mov %r8d, OFFSET_SDL_Rect_h(%rdi)
-    mov %r9, %r10
-    shr $1, %r9
-    sub %r9, %r10
+    mov %r9d, %r10d
+    shr $1, %r8d
+    sub %r8d, %r10d
     mov %r10d, OFFSET_SDL_Rect_x(%rdi)
-    mov %r8, %r10
-    sub %r9, %r10
-    mov %r10d, OFFSET_SDL_Rect_y(%rdi)
+    mov %r8d, OFFSET_SDL_Rect_y(%rdi)
+
+    //! @var bool quit_requested
+    xor %r12, %r12
+
+    // main loop
+  .Lloop:
+
+    address_of_local event, %rdi
+    mov %rdi, %r13
+    call SDL_PollEvent@PLT
+    mov (%r13), %r8d
+
+    // user requested to quit
+    mov $SDL_EVENT_QUIT, %r9d
+    cmp %r8d, %r9d
+    sete %r12b
+
+    // use white color
+    load_local renderer_handle, %rdi
+    mov %rdi, %r13
+    mov $0xff, %rsi
+    mov %rsi, %rcx
+    mov %rsi, %rdx
+    mov %rsi, %r8
+    call SDL_SetRenderDrawColor@PLT
+    test %rax, %rax
+
+    // clear the screen
+    mov %r13, %rdi
+    call SDL_RenderClear@PLT
+
+    // use red color
+    mov %r13, %rdi
+    mov $0xff, %rsi
+    mov $0x00, %rcx
+    mov $0x00, %rdx
+    mov %rsi, %r8
+    call SDL_SetRenderDrawColor@PLT
+
+    // draw the square
+    mov %r13, %rdi
+    address_of_local rect, %rsi
+    call SDL_RenderFillRect@PLT
+
+    // update the screen
+    mov %r13, %rdi
+    call SDL_RenderPresent@PLT
+
+    test %r12b, %r12b
+    jz .Lloop
 
   .Ldestroy_renderer:
     // destroy the renderer
@@ -116,6 +169,7 @@
     call SDL_Quit@PLT
 
     xor %rax, %rax
-
+    pop %r13
+    pop %r12
   function_end
 

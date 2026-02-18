@@ -16,3 +16,31 @@
 //! @param renderer the renderer to destroy
 .type SDL_DestroyRenderer, @function
 .extern SDL_DestroyRenderer
+
+//! @fn int SDL_RenderClear(SDL_Renderer * renderer);
+//! @param renderer the rendering context.
+//! @return 0 on success, or a negative value on error.
+.type SDL_RenderClear, @function
+.extern SDL_RenderClear
+
+//! @fn int SDL_RenderFillRect(SDL_Renderer * renderer, const SDL_Rect * rect);
+//! @param renderer the rendering context.
+//! @param rect the rectangle to fill
+//! @return 0 on success, or a negative value on error.
+.type SDL_RenderFillRect, @function
+.extern SDL_RenderFillRect
+
+//! @fn void SDL_RenderPresent(SDL_Renderer * renderer);
+//! @param renderer the rendering context
+.type SDL_RenderPresent, @function
+.extern SDL_RenderPresent
+
+//! @fn int SDL_SetRenderDrawColor(SDL_Renderer * renderer, Uint8 r, Uint8 g, Uint8 b, Uint8 a);
+//! @param renderer the rendering context.
+//! @param r the red value used to draw on the rendering target.
+//! @param g the green value used to draw on the rendering target.
+//! @param b the blue value used to draw on the rendering target.
+//! @param a the alpha value used to draw on the rendering target.
+//! @return 0 on success, or a negative value on error.
+.type SDL_SetRenderDrawColor, @function
+.extern SDL_SetRenderDrawColor
