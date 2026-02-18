@@ -1,5 +1,7 @@
 #include "helpers/function.S"
-#include "libs/sdl.S"
+#include "SDL/init.S"
+#include "SDL/render.S"
+#include "SDL/video.S"
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600

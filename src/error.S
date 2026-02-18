@@ -1,4 +1,5 @@
 #include "helpers/function.S"
+#include "SDL/error.S"
 
 .section .text
 
