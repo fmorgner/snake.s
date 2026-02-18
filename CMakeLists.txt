@@ -9,6 +9,7 @@ project("snake.s"
 find_package("SDL2" REQUIRED)
 
 add_executable("snake.s"
+  "src/error.S"
   "src/main.S"
 )
 

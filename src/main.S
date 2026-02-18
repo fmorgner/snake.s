@@ -16,22 +16,6 @@
 
 .section .text
 
-  //! @function _print_sdl_error(char const * format)
-  function_begin _print_sdl_error
-
-    push %rdi
-    sub $8, %rsp
- 
-    call SDL_GetError@PLT
-    mov %rax, %rsi
- 
-    add $8, %rsp
-    pop %rdi
-
-    call printf@PLT
-
-  function_end
-
   function_begin main
 
     define_local window_handle, 8
@@ -75,7 +59,6 @@
 
     call SDL_Quit@PLT
 
-  .Lsuccess:
     lea greeting(%rip), %rdi
     xor %rax, %rax
     call printf@PLT
