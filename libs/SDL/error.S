@@ -1,3 +1,5 @@
+#ifndef __STDC_VERSION__
+
 //! @file error.S
 //!
 //! Assembler bindings for SDL2 (SDL_error.h)
@@ -6,3 +8,5 @@
 //! @return the last error message
 .type SDL_GetError, @function
 .extern SDL_GetError
+
+#endif

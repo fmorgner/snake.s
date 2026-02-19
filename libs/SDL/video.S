@@ -1,3 +1,5 @@
+#ifndef __STDC_VERSION__
+
 //! @file video.S
 //!
 //! Assembler bindings for SDL2 (SDL_video.h)
@@ -21,3 +23,5 @@
 //! @param window the window to destroy
 .type SDL_DestroyWindow, @function
 .extern SDL_DestroyWindow
+
+#endif

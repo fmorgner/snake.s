@@ -1,3 +1,5 @@
+#ifndef __STDC_VERSION__
+
 .set .L_FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
 .set .L_FUNCTION_LOCALS_ALLOCATED, 0
 
@@ -122,3 +124,5 @@
     .cfi_def_cfa_register %rbp
     .set .L\name\()_FRAME_OFFSET, 0
 .endm
+
+#endif

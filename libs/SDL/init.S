@@ -1,3 +1,5 @@
+#ifndef __STDC_VERSION__
+
 //! @file init.S
 //!
 //! Assembler bindings for SDL2 (SDL.h)
@@ -29,3 +31,5 @@
 //! @fn void SDL_Quit(void)
 .type SDL_Quit, @function
 .extern SDL_Quit
+
+#endif

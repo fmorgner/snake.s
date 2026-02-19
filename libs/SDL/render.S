@@ -1,3 +1,5 @@
+#ifndef __STDC_VERSION__
+
 //! @file render.S
 //!
 //! Assembler bindings for SDL2 (SDL_render.h)
@@ -46,3 +48,5 @@
 //! @return 0 on success, or a negative value on error.
 .type SDL_SetRenderDrawColor, @function
 .extern SDL_SetRenderDrawColor
+
+#endif

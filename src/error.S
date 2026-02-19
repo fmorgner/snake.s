@@ -1,6 +1,8 @@
 #include "helpers/function.S"
 #include "SDL/error.S"
 
+#ifndef __STDC_VERSION__
+
 .section .text
 
   //! @function _print_sdl_error(char const * format)
@@ -19,3 +21,4 @@
 
   function_end
 
+#endif

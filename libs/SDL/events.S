@@ -1,3 +1,5 @@
+#ifndef __STDC_VERSION__
+
 //! @file events.S
 //!
 //! Assembler bindings for SDL2 (SDL_events.h)
@@ -13,3 +15,5 @@
 //! @return 1 if there is a pending event, or 0 if there isn't.
 .type SDL_PollEvent, @function
 .extern SDL_PollEvent
+
+#endif
