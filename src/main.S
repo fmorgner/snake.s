@@ -124,8 +124,8 @@
     load_local renderer_handle, %rdi
     mov %rdi, %r13
     mov $0xff, %rsi
-    mov %rsi, %rcx
     mov %rsi, %rdx
+    mov %rsi, %rcx
     mov %rsi, %r8
     call SDL_SetRenderDrawColor@PLT
     test %rax, %rax
@@ -137,8 +137,8 @@
     // use red color
     mov %r13, %rdi
     mov $0xff, %rsi
-    mov $0x00, %rcx
     mov $0x00, %rdx
+    mov $0x00, %rcx
     mov %rsi, %r8
     call SDL_SetRenderDrawColor@PLT
 
