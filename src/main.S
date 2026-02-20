@@ -13,9 +13,9 @@
 // callee-saved:    RBX, RSP, RBP, R12-R15
 
 .section .rodata
-  failed_to_create_renderer:    .string "Renderer could not be created\nSDL_error: %s\n"
-  failed_to_create_window:      .string "Window could not be created\nSDL_error: %s\n"
-  failed_to_initialize_sdl:     .string "SDL could not be initialized\nSDL_error: %s\n"
+  failed_to_create_renderer:    .string "Renderer could not be created"
+  failed_to_create_window:      .string "Window could not be created"
+  failed_to_initialize_sdl:     .string "SDL could not be initialized"
 
   succeeded_to_create_renderer: .string "Renderer created successfully!\n"
   succeeded_to_create_window:   .string "Window created successfully!\n"

@@ -3,20 +3,25 @@
 
 #ifndef __STDC_VERSION__
 
+.section .rodata
+
+  sdl_error_format: .string "%s: %s\n"
+
 .section .text
 
-  //! @function _print_sdl_error(char const * format)
+  //! @function _print_sdl_error(char const * prefix)
+  //!
+  //! @param (%rdi) prefix The prefix to be printed in front of the error message
   function_begin _print_sdl_error
 
-    push %rdi
     sub $8, %rsp
+    push %rdi
  
     call SDL_GetError@PLT
-    mov %rax, %rsi
+    mov %rax, %rdx
  
-    add $8, %rsp
-    pop %rdi
-
+    mov (%rsp), %rsi
+    lea sdl_error_format(%rip), %rdi
     call printf@PLT
 
   function_end
