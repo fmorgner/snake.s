@@ -12,6 +12,7 @@ add_subdirectory("libs")
 
 add_library("snake.core"
   "src/error.S"
+  "src/position.S"
   "src/snake.S"
 )
 

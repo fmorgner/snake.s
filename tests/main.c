@@ -2,4 +2,6 @@
 
 #include <cmocka.h>
 
-int main() { return run_snake_tests(); }
+int main() {
+  return run_position_tests() + run_snake_tests();
+}

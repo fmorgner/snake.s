@@ -16,10 +16,9 @@ set(WITH_EXAMPLES OFF)
 
 FetchContent_MakeAvailable("CMocka")
 
-enable_testing()
-
 add_executable("snake.tests"
   "main.c"
+  "position.c"
   "snake.c"
 )
 

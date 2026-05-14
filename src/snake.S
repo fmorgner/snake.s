@@ -46,7 +46,22 @@
 
   function_end
 
+  //! @fn position_t snake_next_head_position(snake_t const * self)
+  //! @param (%rdi) self  the object to get the next head position for
+  //! @return (%rax:rdx)  the next position of the snake's head
+  function_begin snake_next_head_position
+
+    test %rdi, %rdi
+    jz .Lexit_snake_next_head_position
+
+    mov OFFSET_snake_t_x(%rdi), %rax 
+    mov OFFSET_snake_t_y(%rdi), %rdx
+
+  function_end
+
 #else
+
+#include "position.S"
 
 #include <stddef.h>
 
@@ -76,6 +91,7 @@ static_assert(offsetof(snake_t, padding) == OFFSET_snake_t_padding);
 static_assert(sizeof(((snake_t*)0)->padding) == SIZE_snake_t_padding);
 
 void snake_init(snake_t * self, int x, int y, int length);
+position_t snake_next_head_position(snake_t const * self);
 
 #endif
 #endif
