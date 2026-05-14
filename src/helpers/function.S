@@ -1,3 +1,5 @@
+#ifndef SNAKE_HELPERS_FUNCTION_S
+#define SNAKE_HELPERS_FUNCTION_S
 #ifndef __STDC_VERSION__
 
 .set .L_FUNCTION_IS_IN_FUNCTION_DEFINITION, 0
@@ -125,4 +127,5 @@
     .set .L\name\()_FRAME_OFFSET, 0
 .endm
 
+#endif
 #endif

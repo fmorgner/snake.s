@@ -30,5 +30,6 @@ target_link_libraries("snake.s" PRIVATE "snake.core")
 install(TARGETS "snake.s")
 
 if(SNAKE_BUILD_TESTS)
+  include("CTest")
   add_subdirectory("tests")
 endif()

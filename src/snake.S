@@ -2,6 +2,9 @@
 //!
 //! Type definitions, sizes, and the interface for the snake.
 
+#ifndef SNAKE_SNAKE_S
+#define SNAKE_SNAKE_S
+
 #include "helpers/function.S"
 
 #define OFFSET_snake_t_x 0
@@ -74,4 +77,5 @@ static_assert(sizeof(((snake_t*)0)->padding) == SIZE_snake_t_padding);
 
 void snake_init(snake_t * self, int x, int y, int length);
 
+#endif
 #endif
