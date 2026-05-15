@@ -11,10 +11,6 @@ add_library("bindings_SDL2" INTERFACE
   "SDL/video.S"
 )
 
-target_include_directories("bindings_SDL2" INTERFACE
-  "${CMAKE_CURRENT_SOURCE_DIR}"
-)
-
 target_link_libraries("bindings_SDL2" INTERFACE
   "SDL2::SDL2"
 )

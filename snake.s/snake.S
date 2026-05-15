@@ -5,7 +5,7 @@
 #ifndef SNAKE_SNAKE_S
 #define SNAKE_SNAKE_S
 
-#include "helpers/function.S"
+#include <snake.s/function.S>
 
 #define OFFSET_snake_t_x 0
 #define SIZE_snake_t_x 4

@@ -1,6 +1,4 @@
-#include "suites.h"
-
-#include "position.S"
+#include <snake.s/position.S>
 
 #include <cmocka.h>
 

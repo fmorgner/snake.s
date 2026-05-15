@@ -1,6 +1,10 @@
 {
     "cmake.options.statusBarVisibility": "visible",
     "cmake.copyCompileCommands": "${workspaceFolder}/build/compile_commands.json",
+    "explorer.fileNesting.enabled": true,
+    "explorer.fileNesting.patterns": {
+        "*.S": "${capture}.tests.c",
+    },
     "cSpell.words": [
         "cmocka",
         "ifndef",

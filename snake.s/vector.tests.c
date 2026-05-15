@@ -1,6 +1,4 @@
-#include "suites.h"
-
-#include "vector.S"
+#include <snake.s/vector.S>
 
 #include <cmocka.h>
 

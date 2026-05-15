@@ -5,7 +5,7 @@
 #ifndef SNAKE_VECTOR_S
 #define SNAKE_VECTOR_S
 
-#include "helpers/function.S"
+#include <snake.s/function.S>
 
 #define OFFSET_vector_t_x 0
 #define SIZE_vector_t_x 4

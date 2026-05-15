@@ -1,5 +1,6 @@
-#include "helpers/function.S"
-#include "SDL/error.S"
+#include <snake.s/function.S>
+
+#include <interfaces/SDL/error.S>
 
 #ifndef __STDC_VERSION__
 

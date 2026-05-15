@@ -1,9 +1,10 @@
-#include "helpers/function.S"
-#include "SDL/events.S"
-#include "SDL/init.S"
-#include "SDL/rect.S"
-#include "SDL/render.S"
-#include "SDL/video.S"
+#include <snake.s/function.S>
+
+#include <interfaces/SDL/events.S>
+#include <interfaces/SDL/init.S>
+#include <interfaces/SDL/rect.S>
+#include <interfaces/SDL/render.S>
+#include <interfaces/SDL/video.S>
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
