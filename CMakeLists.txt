@@ -9,6 +9,8 @@ project("snake.s"
 set(CMAKE_C_STANDARD 23)
 set(CMAKE_C_STANDARD_REQUIRED YES)
 set(CMAKE_C_EXTENSIONS OFF)
+set(CMAKE_VERIFY_INTERFACE_HEADER_SETS YES)
+set(CMAKE_VERIFY_PRIVATE_HEADER_SETS YES)
 
 #[============================================================================[
 # Modules
@@ -43,11 +45,21 @@ add_subdirectory("interfaces")
 # Core Library
 #]============================================================================]
 
-add_library("snake.core"
+add_library("snake.core")
+add_library("snake::core" ALIAS "snake.core")
+
+target_sources("snake.core" PRIVATE
   "snake.s/error.S"
   "snake.s/function.S"
   "snake.s/snake.S"
   "snake.s/vector.S"
+)
+
+target_sources("snake.core" PUBLIC
+  FILE_SET HEADERS
+  FILES
+  "snake.s/snake.h"
+  "snake.s/vector.h"
 )
 
 target_include_directories("snake.core" PUBLIC
@@ -73,9 +85,16 @@ target_link_libraries("snake.core" PUBLIC
 # Game Application
 #]============================================================================]
 
-add_executable("snake.s" "snake.s/main.S")
+add_executable("snake.s")
+add_executable("snake::app" ALIAS "snake.s")
 
-target_link_libraries("snake.s" PRIVATE "snake.core")
+target_sources("snake.s" PRIVATE
+  "snake.s/main.S"
+)
+
+target_link_libraries("snake.s" PRIVATE
+  "snake::core"
+)
 
 install(TARGETS "snake.s")
 
@@ -91,14 +110,17 @@ if(BUILD_TESTING)
 
   FetchContent_MakeAvailable("CMocka")
 
-  add_executable("snake.tests"
+  add_executable("snake.tests")
+  add_executable("snake::tests" ALIAS "snake.tests")
+
+  target_sources("snake.tests" PRIVATE
     "snake.s/tests.c"
     "snake.s/snake.tests.c"
     "snake.s/vector.tests.c"
   )
 
-  target_link_libraries("snake.tests" PUBLIC
-    "snake.core"
+  target_link_libraries("snake.tests" PRIVATE
+    "snake::core"
     "cmocka"
   )
 
