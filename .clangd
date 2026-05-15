@@ -2,7 +2,7 @@ Diagnostics:
   UnusedIncludes: Strict
   MissingIncludes: Strict
 CompileFlags:
-  Remove:
-    - -fcondition-coverage
+  Add:
+    - -std=c2x
 Documentation:
   CommentFormat: Doxygen
