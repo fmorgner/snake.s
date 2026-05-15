@@ -8,6 +8,7 @@ add_library("bindings_SDL2" INTERFACE
   "SDL/init.S"
   "SDL/rect.S"
   "SDL/render.S"
+  "SDL/timer.S"
   "SDL/video.S"
 )
 
