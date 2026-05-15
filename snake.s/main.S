@@ -116,9 +116,11 @@
     address_of_local event, %rdi
     mov %rdi, %r13
     call SDL_PollEvent@PLT
+    cmp $1, %rax
+    jne .Lupdate
     mov (%r13), %r8d
 
-  .Lloop_drain_events:
+  .Ldrain_events:
     // user requested to quit
     cmp $SDL_EVENT_QUIT, %r8d
     je .Lloop_end
@@ -126,7 +128,9 @@
     call SDL_PollEvent@PLT
     mov (%r13), %r8d
     cmp $1, %rax
-    je .Lloop_drain_events
+    je .Ldrain_events
+
+  .Lupdate:
 
     // use white color
     load_local renderer_handle, %rdi
