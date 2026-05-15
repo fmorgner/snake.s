@@ -20,6 +20,7 @@ add_executable("snake.tests"
   "main.c"
   "position.c"
   "snake.c"
+  vector.c
 )
 
 target_compile_features("snake.tests" PUBLIC

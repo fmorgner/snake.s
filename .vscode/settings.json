@@ -1,5 +1,8 @@
 {
+    "cmake.options.statusBarVisibility": "visible",
+    "cmake.copyCompileCommands": "${workspaceFolder}/build/compile_commands.json",
     "cSpell.words": [
+        "cmocka",
         "ifndef",
         "Lexit",
         "offsetof",

@@ -2,28 +2,52 @@
   "version": 10,
   "configurePresets": [
     {
-      "name": "default",
-      "displayName": "Default Configuration",
+      "name": "base",
+      "hidden": true,
       "generator": "Ninja",
-      "binaryDir": "${sourceDir}/build",
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Debug",
         "CMAKE_EXPORT_COMPILE_COMMANDS": true
+      }
+    },
+    {
+      "name": "nosse2",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/build/nosse2",
+      "cacheVariables": {
+        "SNAKE_ENABLE_SSE2_MATH": false
+      }
+    },
+    {
+      "name": "sse2",
+      "inherits": "base",
+      "binaryDir": "${sourceDir}/build/sse2",
+      "cacheVariables": {
+        "SNAKE_ENABLE_SSE2_MATH": true
       }
     }
   ],
   "buildPresets": [
     {
-      "name": "default",
-      "displayName": "Default Build",
-      "configurePreset": "default"
+      "name": "nosse2",
+      "configurePreset": "nosse2"
+    },
+    {
+      "name": "sse2",
+      "configurePreset": "sse2"
     }
   ],
   "testPresets": [
     {
-      "name": "default",
-      "displayName": "Default Tests",
-      "configurePreset": "default",
+      "name": "nosse2",
+      "configurePreset": "nosse2",
+      "output": {
+        "outputOnFailure": true
+      }
+    },
+    {
+      "name": "sse2",
+      "configurePreset": "sse2",
       "output": {
         "outputOnFailure": true
       }
@@ -31,12 +55,37 @@
   ],
   "workflowPresets": [
     {
-      "name": "default",
-      "displayName": "Default Workflow",
+      "name": "nosse2",
       "steps": [
-        { "type": "configure", "name": "default" },
-        { "type": "build", "name": "default" },
-        { "type": "test", "name": "default" }
+        {
+          "type": "configure",
+          "name": "nosse2"
+        },
+        {
+          "type": "build",
+          "name": "nosse2"
+        },
+        {
+          "type": "test",
+          "name": "nosse2"
+        }
+      ]
+    },
+    {
+      "name": "sse2",
+      "steps": [
+        {
+          "type": "configure",
+          "name": "sse2"
+        },
+        {
+          "type": "build",
+          "name": "sse2"
+        },
+        {
+          "type": "test",
+          "name": "sse2"
+        }
       ]
     }
   ]
