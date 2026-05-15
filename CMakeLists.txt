@@ -46,7 +46,6 @@ add_subdirectory("interfaces")
 add_library("snake.core"
   "snake.s/error.S"
   "snake.s/function.S"
-  "snake.s/position.S"
   "snake.s/snake.S"
   "snake.s/vector.S"
 )
@@ -93,8 +92,7 @@ if(BUILD_TESTING)
   FetchContent_MakeAvailable("CMocka")
 
   add_executable("snake.tests"
-    "snake.s/main.tests.c"
-    "snake.s/position.tests.c"
+    "snake.s/tests.c"
     "snake.s/snake.tests.c"
     "snake.s/vector.tests.c"
   )

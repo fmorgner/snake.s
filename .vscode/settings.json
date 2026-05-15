@@ -3,7 +3,7 @@
     "cmake.copyCompileCommands": "${workspaceFolder}/build/compile_commands.json",
     "explorer.fileNesting.enabled": true,
     "explorer.fileNesting.patterns": {
-        "*.S": "${capture}.tests.c",
+        "*.S": "${capture}.tests.c, ${capture}.h",
     },
     "cSpell.words": [
         "cmocka",

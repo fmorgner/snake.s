@@ -1,0 +1,120 @@
+﻿---
+AccessModifierOffset: "-2"
+AlignAfterOpenBracket: Align
+AlignConsecutiveAssignments:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  AlignFunctionPointers: false
+  PadOperators: true
+AlignConsecutiveDeclarations:
+  Enabled: false
+  AcrossEmptyLines: false
+  AcrossComments: false
+  AlignCompound: false
+  AlignFunctionPointers: false
+  PadOperators: true
+AlignEscapedNewlines: LeftWithLastLine
+AlignTrailingComments: "true"
+AllowAllParametersOfDeclarationOnNextLine: "true"
+AllowShortBlocksOnASingleLine: Never
+AllowShortCaseLabelsOnASingleLine: "false"
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: "false"
+AlwaysBreakAfterDefinitionReturnType: None
+AlwaysBreakAfterReturnType: None
+AlwaysBreakTemplateDeclarations: "true"
+BinPackArguments: "true"
+BinPackParameters: "true"
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterClass: "true"
+  AfterControlStatement: "true"
+  AfterEnum: "true"
+  AfterFunction: "true"
+  AfterNamespace: "true"
+  AfterStruct: "true"
+  AfterUnion: "true"
+  AfterExternBlock: "true"
+  BeforeCatch: "true"
+  BeforeElse: "true"
+  IndentBraces: "false"
+  AfterCaseLabel: true
+  SplitEmptyFunction: false
+  SplitEmptyRecord: true
+  SplitEmptyNamespace: true
+BreakBeforeInheritanceComma: "false"
+BreakConstructorInitializers: BeforeComma
+BreakStringLiterals: "true"
+ColumnLimit: "120"
+CompactNamespaces: "false"
+Cpp11BracedListStyle: "true"
+DerivePointerAlignment: "false"
+FixNamespaceComments: "true"
+IncludeBlocks: Regroup
+IncludeCategories:
+  # Game Headers
+  - Regex: 'snake\.s/[[:alnum:]._\/]+\.h'
+    Priority: 100
+    # Interface Headers
+  - Regex: 'interfaces\.s/[[:alnum:]._\/]+\.h'
+    Priority: 100
+    # Standard Headers
+  - Regex: "<[[:alnum:]._]+>"
+    Priority: 900
+    # Local Headers
+  - Regex: '".*"'
+    Priority: 10
+IndentCaseLabels: "true"
+IndentPPDirectives: None
+IndentWidth: "2"
+KeepEmptyLinesAtTheStartOfBlocks: "false"
+Language: C
+MainIncludeChar: "Any"
+MaxEmptyLinesToKeep: "1"
+NamespaceIndentation: All
+PointerAlignment: Middle
+ReflowComments: "true"
+SortIncludes: "true"
+SortUsingDeclarations: "true"
+SpaceAfterCStyleCast: "false"
+SpaceAfterTemplateKeyword: "false"
+SpaceBeforeAssignmentOperators: "true"
+SpaceBeforeParens: ControlStatements
+SpaceInEmptyParentheses: "false"
+SpacesBeforeTrailingComments: "2"
+SpacesInAngles: "false"
+SpacesInContainerLiterals: "false"
+SpacesInCStyleCastParentheses: "false"
+SpacesInParentheses: "false"
+SpacesInSquareBrackets: "false"
+Standard: Latest
+TabWidth: "2"
+UseTab: Never
+AlignArrayOfStructures: Right
+AlignConsecutiveBitFields: {}
+AllowAllArgumentsOnNextLine: false
+AllowBreakBeforeNoexceptSpecifier: Never
+AllowShortCaseExpressionOnASingleLine: false
+AllowShortCompoundRequirementOnASingleLine: true
+AllowShortEnumsOnASingleLine: false
+AllowShortLambdasOnASingleLine: Inline
+BitFieldColonSpacing: Both
+BracedInitializerIndentWidth: 2
+IntegerLiteralSeparator:
+  Binary: 4
+  BinaryMinDigits: 8
+  Decimal: 3
+  DecimalMinDigits: 6
+  Hex: 4
+  HexMinDigits: 8
+QualifierAlignment: Custom
+QualifierOrder:
+  - static
+  - inline
+  - type
+  - const
+SpaceBeforeRangeBasedForLoopColon: true
+SpaceBeforeSquareBrackets: false
