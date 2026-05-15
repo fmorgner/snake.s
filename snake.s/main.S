@@ -4,6 +4,7 @@
 #include <interfaces/SDL/init.S>
 #include <interfaces/SDL/rect.S>
 #include <interfaces/SDL/render.S>
+#include <interfaces/SDL/timer.S>
 #include <interfaces/SDL/video.S>
 
 #define SCREEN_WIDTH 800
@@ -117,9 +118,15 @@
     call SDL_PollEvent@PLT
     mov (%r13), %r8d
 
+  .Lloop_drain_events:
     // user requested to quit
     cmp $SDL_EVENT_QUIT, %r8d
     je .Lloop_end
+
+    call SDL_PollEvent@PLT
+    mov (%r13), %r8d
+    cmp $1, %rax
+    je .Lloop_drain_events
 
     // use white color
     load_local renderer_handle, %rdi
