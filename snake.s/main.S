@@ -110,9 +110,6 @@
     mov %r10d, OFFSET_SDL_Rect_x(%rdi)
     mov %r8d, OFFSET_SDL_Rect_y(%rdi)
 
-    //! @var bool quit_requested
-    xor %r12, %r12
-
     // initialize the update time keeping variables
     call SDL_GetTicks64@PLT
     store_local %rax, previous_time
@@ -122,23 +119,20 @@
     // main loop
   .Lloop:
 
-    address_of_local event, %rdi
-    mov %rdi, %r13
+    address_of_local event, %r13
+
+  .Ldrain_events:
+    mov %r13, %rdi
     call SDL_PollEvent@PLT
     cmp $1, %rax
     jne .Lupdate_simulation_time
     mov (%r13), %r8d
 
-  .Ldrain_events:
     // user requested to quit
     cmp $SDL_EVENT_QUIT, %r8d
     je .Lloop_end
 
-    mov %r13, %rdi
-    call SDL_PollEvent@PLT
-    mov (%r13), %r8d
-    cmp $1, %rax
-    je .Ldrain_events
+    jmp .Ldrain_events
 
   .Lupdate_simulation_time:
     // get the current time and calculate the lag
