@@ -49,6 +49,7 @@ add_library("snake.core")
 add_library("snake::core" ALIAS "snake.core")
 
 target_sources("snake.core" PRIVATE
+  "snake.s/debug.S"
   "snake.s/error.S"
   "snake.s/function.S"
   "snake.s/snake.S"
@@ -78,7 +79,8 @@ target_compile_definitions("snake.core" PUBLIC
 )
 
 target_link_libraries("snake.core" PUBLIC
-  "bindings::SDL2"
+  "interfaces::SDL2"
+  "interfaces::libc"
 )
 
 #[============================================================================[

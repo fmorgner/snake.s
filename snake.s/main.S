@@ -1,11 +1,7 @@
 #include <snake.s/function.S>
 
-#include <interfaces/SDL/events.S>
-#include <interfaces/SDL/init.S>
-#include <interfaces/SDL/rect.S>
-#include <interfaces/SDL/render.S>
-#include <interfaces/SDL/timer.S>
-#include <interfaces/SDL/video.S>
+#include <SDL.S>
+#include <libc.S>
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
@@ -14,9 +10,6 @@
 // integer-params:  RDI, RSI, RDX, RCX, R8, R9
 // caller-saved:    RAX, RCX, RDI, RSI, RDX, R8-R11
 // callee-saved:    RBX, RSP, RBP, R12-R15
-
-.type stdout, @object
-.extern stdout
 
 .section .rodata
   failed_to_create_renderer:    .string "Renderer could not be created"
@@ -157,10 +150,7 @@
 
 #ifndef NDEBUG
     lea debug_update(%rip), %rdi
-    xor %rax, %rax
-    call printf@PLT
-    mov stdout(%rip), %rdi
-    call fflush@PLT
+    call _print_debug
 #endif
 
     // update simulation lag
@@ -172,10 +162,7 @@
   .Lrender:
 #ifndef NDEBUG
     lea debug_render(%rip), %rdi
-    xor %rax, %rax
-    call printf@PLT
-    mov stdout(%rip), %rdi
-    call fflush@PLT
+    call _print_debug
 #endif
 
     // use white color

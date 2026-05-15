@@ -1,6 +1,6 @@
-#include <interfaces/SDL/error.S>
-#include <interfaces/SDL/event.S>
-#include <interfaces/SDL/init.S>
-#include <interfaces/SDL/rect.S>
-#include <interfaces/SDL/render.S>
-#include <interfaces/SDL/video.S>
+#include <SDL/error.S>
+#include <SDL/events.S>
+#include <SDL/init.S>
+#include <SDL/rect.S>
+#include <SDL/render.S>
+#include <SDL/video.S>
