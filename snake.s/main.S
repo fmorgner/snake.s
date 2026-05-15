@@ -15,10 +15,16 @@
 // caller-saved:    RAX, RCX, RDI, RSI, RDX, R8-R11
 // callee-saved:    RBX, RSP, RBP, R12-R15
 
+.type stdout, @object
+.extern stdout
+
 .section .rodata
   failed_to_create_renderer:    .string "Renderer could not be created"
   failed_to_create_window:      .string "Window could not be created"
   failed_to_initialize_sdl:     .string "SDL could not be initialized"
+
+  debug_update:                 .string "U"
+  debug_render:                 .string "r"
 
   succeeded_to_create_renderer: .string "Renderer created successfully!\n"
   succeeded_to_create_window:   .string "Window created successfully!\n"
@@ -149,6 +155,14 @@
     cmp $UPDATE_TIME_STEP, %rcx
     jb .Lrender
 
+#ifndef NDEBUG
+    lea debug_update(%rip), %rdi
+    xor %rax, %rax
+    call printf@PLT
+    mov stdout(%rip), %rdi
+    call fflush@PLT
+#endif
+
     // update simulation lag
     load_local lag, %rcx
     sub $UPDATE_TIME_STEP, %rcx
@@ -156,6 +170,14 @@
     jmp .Lupdate
 
   .Lrender:
+#ifndef NDEBUG
+    lea debug_render(%rip), %rdi
+    xor %rax, %rax
+    call printf@PLT
+    mov stdout(%rip), %rdi
+    call fflush@PLT
+#endif
+
     // use white color
     load_local renderer_handle, %rdi
     mov %rdi, %r13
