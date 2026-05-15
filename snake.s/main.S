@@ -9,6 +9,7 @@
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
+#define UPDATE_TIME_STEP 66
 
 // integer-params:  RDI, RSI, RDX, RCX, R8, R9
 // caller-saved:    RAX, RCX, RDI, RSI, RDX, R8-R11
@@ -36,6 +37,8 @@
     define_local renderer_handle, 8
     define_local rect, SIZE_SDL_Rect
     define_local event, SIZE_SDL_Event
+    define_local previous_time, 8
+    define_local lag, 8
     allocate_locals
 
     // initialize SDL
@@ -110,6 +113,12 @@
     //! @var bool quit_requested
     xor %r12, %r12
 
+    // initialize the update time keeping variables
+    call SDL_GetTicks64@PLT
+    store_local %rax, previous_time
+    xor %rax, %rax
+    store_local %rax, lag
+
     // main loop
   .Lloop:
 
@@ -117,7 +126,7 @@
     mov %rdi, %r13
     call SDL_PollEvent@PLT
     cmp $1, %rax
-    jne .Lupdate
+    jne .Lupdate_simulation_time
     mov (%r13), %r8d
 
   .Ldrain_events:
@@ -125,13 +134,34 @@
     cmp $SDL_EVENT_QUIT, %r8d
     je .Lloop_end
 
+    mov %r13, %rdi
     call SDL_PollEvent@PLT
     mov (%r13), %r8d
     cmp $1, %rax
     je .Ldrain_events
 
-  .Lupdate:
+  .Lupdate_simulation_time:
+    // get the current time and calculate the lag
+    call SDL_GetTicks64@PLT
+    mov %rax, %r8
+    load_local previous_time, %rcx
+    sub %rcx, %r8
+    store_local %rax, previous_time
+    load_local lag, %rcx
+    add %r8, %rcx
+    store_local %rcx, lag    
 
+  .Lupdate:
+    cmp $UPDATE_TIME_STEP, %rcx
+    jb .Lrender
+
+    // update simulation lag
+    load_local lag, %rcx
+    sub $UPDATE_TIME_STEP, %rcx
+    store_local %rcx, lag
+    jmp .Lupdate
+
+  .Lrender:
     // use white color
     load_local renderer_handle, %rdi
     mov %rdi, %r13
