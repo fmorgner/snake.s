@@ -11,13 +11,15 @@
 #define SIZE_vector_t_padding 0
 
 #define SIZE_vector_t OFFSET_vector_t_padding + SIZE_vector_t_padding
+#define ALIGN_vector_t 4
 
 #ifdef __STDC_VERSION__
 
 #include <stddef.h>
 #include <stdint.h>
 
-typedef struct {
+typedef struct
+{
   int32_t x;
   int32_t y;
 } vector_t;
@@ -30,12 +32,14 @@ static_assert(sizeof(((vector_t *)0)->x) == SIZE_vector_t_x);
 static_assert(offsetof(vector_t, y) == OFFSET_vector_t_y);
 static_assert(sizeof(((vector_t *)0)->y) == SIZE_vector_t_y);
 
+static_assert(alignof(vector_t) == ALIGN_vector_t);
+
 //! Initialize a vector object using the given components.
 //!
 //! @param self the object to initialize
 //! @param x the x value of this vector
 //! @param y the y value of this vector
-void vector_init(vector_t *self, uint32_t x, uint32_t y);
+void vector_init(vector_t * self, uint32_t x, uint32_t y);
 
 //! Compare two vectors for equality.
 //!

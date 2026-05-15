@@ -11,6 +11,7 @@
 #define SIZE_snake_t_length 4
 
 #define SIZE_snake_t OFFSET_snake_t_length + SIZE_snake_t_length
+#define ALIGN_snake_t 4
 
 #ifdef __STDC_VERSION__
 
@@ -35,6 +36,8 @@ static_assert(sizeof(((snake_t *)0)->move_direction) == SIZE_snake_t_move_direct
 
 static_assert(offsetof(snake_t, length) == OFFSET_snake_t_length);
 static_assert(sizeof(((snake_t *)0)->length) == SIZE_snake_t_length);
+
+static_assert(alignof(snake_t) == ALIGN_snake_t);
 
 //! Initialize a snake given the initial position and length of its head.
 //!
